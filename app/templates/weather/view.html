@@ -1,0 +1,37 @@
+{% extends "master.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center">
+        <h1>Weather Conditions - {{name if id else "Create"}}{{(" <span class='cy-inactive'>(inactive)</span>")|safe if status else ""|safe}}</h1>
+        <div>
+            <a href="/weather/" class="btn btn-info">All Weather Conditions</a>
+        </div>
+    </div>
+<div>
+    <form method="POST">
+        <div class="row">
+            <div class="col-sm form-group">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name" value="{{name}}"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm form-group">
+                <label for="description">Description</label>
+                <input class="form-control" type="text" name="description" id="description" value="{{description if description else ""}}"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm form-group">
+                {% if status %}
+                <a href="/weather/{{id}}/restore" class="btn btn-secondary"><i class="fas fa-recycle"></i> Restore</a>
+                {% else %}
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> {{"Save" if id else "Create"}}</button>
+                {% if id %}
+                <a href="/weather/{{id}}/delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</a>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

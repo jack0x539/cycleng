@@ -1,0 +1,63 @@
+.card.cy-dashboard {
+    width: 300px;
+    margin: 0 20px 20px 0;
+    color: black;
+    height: 250px;
+    border-width: 2px;  
+}
+
+.card.cy-dashboard i {
+    margin-bottom: 20px;
+    color:  #7f3589;
+}
+
+.card.cy-dashboard:hover {
+    background-color: #c886d0;
+    border-color:#7f3589;
+    color: white;
+    cursor: pointer;
+    text-decoration:none;
+}
+
+.card.cy-dashboard:hover i,
+.card.cy-dashboard:hover p,
+.card.cy-dashboard:hover h5 {
+    color: white;
+}
+
+.card.cy-dashboard .cy-card-image {
+    text-align: center;
+}
+
+.cy-top-bar {
+    height:100px;
+}
+
+.cy-top-bar h1,
+.cy-top-bar h5 {
+    line-height: 100px;
+    vertical-align: baseline;
+    display: inline-block;
+}
+
+.cy-top-bar h5 {
+    color: #c886d0;
+}
+
+.cy-top-container {
+    background-color: #7f3589;
+    color:white;  
+}
+
+.cy-top-bar a {
+    color:white;
+}
+
+.cy-content {
+    margin-top: 20px;
+}
+
+span.cy-inactive {
+    color: grey;
+    font-style: italic;
+}
