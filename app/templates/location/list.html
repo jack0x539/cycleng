@@ -1,0 +1,27 @@
+{% extends "list_master.html" %}
+{% block title %}Locations{% endblock %}
+{% block controller %}locations{% endblock %}
+{% block headers %}
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Description</th>
+    <th scope="col">Contact</th>
+    <th scope="col">Address</th>
+    <th scope="col"></th>
+{% endblock %}
+{% block columns %}
+    {% if items %}
+        {% for item in items %}
+        <tr>
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.description if item.description else ""}}</td>
+            <td>{{item.contact_name if item.contact_name else ""}}</td>
+            <td>{{item.address.line1 if item.address else ""}}</td>
+            <td class="text-right">
+                <a href="/{{self.controller()}}/{{item.id}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

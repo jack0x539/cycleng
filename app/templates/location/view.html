@@ -1,0 +1,17 @@
+{% extends "view_master.html" %}
+{% block title %}Locations{% endblock %}
+{% block controller %}locations{% endblock %}
+{% block fields %}
+    {{super()}}
+    <hr>
+    {{ text_input_row("Address 1", "address1", address1)}}
+    {{ text_input_row("Address 2", "address2", address2)}}
+    {{ text_input_row("Address 3", "address3", address3)}}
+    {{ text_input_row("County", "county", county)}}
+    {{ text_input_row("Post Code", "postcode", postcode)}}
+    <hr>
+    {{ text_input_row("Contact Name", "contactname", contactname)}}
+    {{ text_input_row("Contact Email", "contactemail", contactemail)}}
+    {{ text_input_row("Contact Telephone", "contactphone", contactphone)}}
+    {{ text_input_row("Contact Telephone (Alt.)", "contactphone2", contactphone2)}}
+{% endblock %}

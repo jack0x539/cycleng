@@ -80,3 +80,16 @@ class Partnership(Base):
 
     name = Column(String(256), nullable=False, unique=True) 
     description = Column(String(512))
+
+def generate_controller(class_type, item_type_name, controller_method_name, controller_url, output_filepath):
+    template = None
+    with open("controller_template.txt", "r") as fs:
+        template = fs.read()
+
+    template = template.replace("$CLASSNAME$", class_type.__name__)
+    template = template.replace("$ITEMTYPENAME$", item_type_name)
+    template = template.replace("$CONTROLLERMETHODNAME$", controller_method_name)
+    template = template.replace("$CONTROLLERURL$", controller_url)
+
+    with open(output_filepath, "w+") as fs:
+        fs.write(template)

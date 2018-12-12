@@ -1,0 +1,117 @@
+from app import app, api, querystring_get
+from app import Alert
+from app.models import $CLASSNAME$
+
+from flask import render_template, session, redirect
+
+@app.route("/$CONTROLLERURL$/")
+def list_$CONTROLLERMETHODNAME$():
+    items = api.list($CLASSNAME$, False)
+    
+    if not items and api.erred:
+        Alert.bad(api.error)
+
+    return render_template("$CONTROLLERMETHODNAME$/list.html", items=items)
+
+@app.route("/$CONTROLLERURL$/create/")
+def create_$CONTROLLERMETHODNAME$():
+    return render_template("$CONTROLLERMETHODNAME$/view.html")
+
+@app.route("/$CONTROLLERURL$/<id>/")
+def view_$CONTROLLERMETHODNAME$(id):
+    item = api.get($CLASSNAME$, id)
+    
+    if not item:
+        Alert.bad("Could not find <strong>$ITEMTYPENAME$</strong> {}".format(id))
+        return redirect("/$CONTROLLERURL$/")
+    
+    data = {
+        "id": id,
+        "name": item.name,
+        "description": item.description
+    }
+
+    return render_template("$CONTROLLERMETHODNAME$/view.html", **data)
+
+@app.route("/$CONTROLLERURL$/<id>/", methods=["POST"])
+def update_$CONTROLLERMETHODNAME$(id):
+    data = {
+        "name": querystring_get("name"),
+        "description": querystring_get("description")
+    }
+
+    if not data["name"]:
+        Alert.bad("The <strong>name</strong> field is required")
+        return render_template("$CONTROLLERMETHODNAME$/view.html", **data)
+
+    create = str(id).lower() == "create"
+
+    item = None
+    if create:
+        item = $CLASSNAME$()
+    else:   
+        item = api.get($CLASSNAME$, id)
+        if not item:
+            Alert.bad("Could not find <strong>$ITEMTYPENAME$</strong> {}; {}".format(id, api.error))
+            return render_template("$CONTROLLERMETHODNAME$/view.html", **data)
+
+    item.name = data["name"]
+    item.description = data["description"]
+    item = api.update($CLASSNAME$, item)
+    
+    if not item:
+        Alert.bad(api.error)
+        return render_template("$CONTROLLERMETHODNAME$/view.html", **data)
+    
+    Alert.good("$ITEMTYPENAME$ <strong>{}</strong> {}".format(item.name, "created" if create else "updated"))
+    return redirect("/$CONTROLLERURL$/{}".format(item.id))
+
+@app.route("/$CONTROLLERURL$/<id>/delete")
+def delete_$CONTROLLERMETHODNAME$(id):
+    item = api.get($CLASSNAME$, id)
+    
+    if not item:
+        Alert.bad("Could not find <strong>$ITEMTYPENAME$</strong> {}".format(id))
+        return redirect("/$CONTROLLERURL$/")
+    
+    data = {
+        "id": id,
+        "name": item.name,
+        "description": item.description
+    }
+
+    return render_template("$CONTROLLERMETHODNAME$/delete.html", **data) 
+
+@app.route("/$CONTROLLERURL$/<id>/delete", methods=["POST"])
+def delete_$CONTROLLERMETHODNAME$_post(id):
+    item = api.get($CLASSNAME$, id)
+
+    if not item:
+        Alert.bad(api.error)
+        return redirect("/$CONTROLLERURL$/")
+
+    deleted = api.delete($CLASSNAME$, item)
+
+    if not deleted:
+        Alert.bad(api.error)
+        return redirect("/$CONTROLLERURL$/{}/".format(id))
+
+    Alert.good("Deleted <strong>$ITEMTYPENAME$</strong> '{}'".format(item.name))
+    return redirect("/$CONTROLLERURL$/")
+
+@app.route("/$CONTROLLERURL$/<id>/restore")
+def restore_$CONTROLLERMETHODNAME$(id):
+    item = api.get($CLASSNAME$, id)
+
+    if not item:
+        Alert.bad(api.error)
+        return redirect("/$CONTROLLERURL$/")
+
+    restored = api.restore($CLASSNAME$, item)
+
+    if not restored:
+        Alert.bad(api.error)
+        return redirect("/$CONTROLLERURL$/")
+
+    Alert.good("Restored <strong>$ITEMTYPENAME$</strong> with name <strong>{}</strong>".format(item.name))
+    return redirect("/$CONTROLLERURL$/")
