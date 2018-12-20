@@ -1,0 +1,76 @@
+{% extends "view_master.html" %}
+{% block title %}Events{% endblock %}
+{% block controller %}events{% endblock %}
+{% block fields %}
+    {{ text_input_row("Description", "description", description if description else "") }}
+    <div class="form-row">
+        {{ text_input("Date", "date", date if date else "") }}
+        <div class="form-group col-sm">
+            <label for="hour">Time</label>
+            <select class="form-control" name="hour" id="hour">
+                <option>Hour</option>
+                {% for h in range(0, 23) %}
+                    <option value="{{h}}">{{h}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-sm">
+            <label for="minute">&nbsp;</label>
+            <select class="form-control" name="minute" id="minute">
+                <option>Minute</option>
+                <option value="0">00</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm form-group">
+            <label for="location">Location</label>
+            <select class="form-control" id="location" name="location">
+                <option value="0">None Selected</option>
+                {% if locations %}
+                    {% for loc in locations %}
+                        <option value="{{loc.id}}"{{" selected" if id and location == loc.id else ""}}>{{loc.name }} | {{loc.address.line1}}, {{loc.address.postcode}}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="0">No Locations Loaded</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm form-group">
+            <label for="eventtype">Event Type</label>
+            <select class="form-control" id="eventype" name="eventtype">
+                <option value="0">None Selected</option>
+                {% if event_types %}
+                    {% for type in event_types %}
+                        <option value="{{type.id}}"{{" selected" if id and eventtype == type.id else ""}}>{{type.name}}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="0">No Event Types Loaded</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm form-group">
+            <label for="chargetype">Charge Type</label>
+            <select class="form-control" id="chargetype" name="chargetype">
+                <option value="0">None Selected</option>
+                {% if charge_types %}
+                    {% for charge_type in charge_types %}
+                        <option value="{{charge_type.id}}"{{" selected" if id and chargetype == charge_type.id else ""}}>{{charge_type.name}}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="0">No Charge Types Loaded</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    $("#date").datepicker();
+{% endblock %}

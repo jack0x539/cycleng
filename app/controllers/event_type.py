@@ -1,6 +1,6 @@
 from app import app, api, querystring_get
 from app import Alert
-from app.models import EventType
+from app.models import EventType, ChargeType
 
 from flask import render_template, session, redirect
 
@@ -15,7 +15,8 @@ def list_event_type():
 
 @app.route("/eventtypes/create/")
 def create_event_type():
-    return render_template("event_type/view.html")
+    charge_types = api.list(ChargeType)
+    return render_template("event_type/view.html", charge_types=charge_types)
 
 @app.route("/eventtypes/<id>/")
 def view_event_type(id):
@@ -25,10 +26,14 @@ def view_event_type(id):
         Alert.bad("Could not find <strong>Event Type</strong> {}".format(id))
         return redirect("/eventtypes/")
     
+    charge_types = api.list(ChargeType)
+
     data = {
         "id": id,
         "name": item.name,
-        "description": item.description
+        "description": item.description,
+        "charge_types": charge_types,
+        "defaultchargetype": item.default_charge_type_id
     }
 
     return render_template("event_type/view.html", **data)
@@ -37,7 +42,8 @@ def view_event_type(id):
 def update_event_type(id):
     data = {
         "name": querystring_get("name"),
-        "description": querystring_get("description")
+        "description": querystring_get("description"),
+        "defaultchargetype": querystring_get("defaultchargetype")
     }
 
     if not data["name"]:
@@ -57,6 +63,7 @@ def update_event_type(id):
 
     item.name = data["name"]
     item.description = data["description"]
+    item.default_charge_type_id = data["defaultchargetype"]
     item = api.update(EventType, item)
     
     if not item:

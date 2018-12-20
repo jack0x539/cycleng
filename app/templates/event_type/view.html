@@ -3,4 +3,19 @@
 {% block controller %}eventtypes{% endblock %}
 {% block fields %}
     {{super()}}
+    <div class="row">
+        <div class="col-sm form-group">
+            <label for="defaultchargetype">Default Charge Type</label>
+            <select class="form-control" id="defaultchargetype" name="defaultchargetype">
+                <option value="0">None Selected</option>
+                {% if charge_types %}
+                    {% for charge_type in charge_types %}
+                        <option value="{{charge_type.id}}"{{" selected" if id and defaultchargetype == charge_type.id else ""}}>{{charge_type.name}}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="0">No Charge Types Loaded</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
 {% endblock %}

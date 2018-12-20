@@ -1,0 +1,23 @@
+{% extends "list_master.html" %}
+{% block title %}Events{% endblock %}
+{% block controller %}events{% endblock %}
+{% block headers %}
+<th scope="col">#</th>
+<th scope="col">Start</th>
+<th scope="col">Type</th>
+<th scope="col">Participants</th>
+<th scope="col"></th>
+{% endblock %}
+{% block columns %}
+    {% for item in items %}
+    <tr>
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.start}}</td>
+        <td>{{item.type.name}}</td>
+        <td>{{item.participants|length}}</td>
+        <td class="text-right">
+            <a href="/{{self.controller()}}/{{item.id}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
+        </td>
+    </tr>
+    {% endfor %}
+{% endblock %}

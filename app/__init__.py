@@ -30,6 +30,6 @@ def querystring_get(key, alternate=""):
 def not_found(error):
     return render_template("404.html"), 404
 
-from app.controllers import home, event_role, weather, charge_type, partnership, event_type, location
+from app.controllers import home, event_role, weather, charge_type, partnership, event_type, location, events
 
 db.create_all()
