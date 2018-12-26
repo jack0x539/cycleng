@@ -1,0 +1,21 @@
+{% extends "view_master.html" %}
+{% block title %}Users{% endblock %}
+{% block controller %}users{% endblock %}
+{% block fields %}
+    {{ text_input_row("Username", "username", username)}}
+    {{ text_input_row("Forename", "forename", forename)}}
+    {{ text_input_row("Surname", "surname", surname)}}
+    {{ text_input_row("Date of Birth", "dob", dob)}}
+    {{ text_input_row("Email Address", "email", email)}}
+    <hr>
+    {{ text_input_row("Address 1", "address1", address1)}}
+    {{ text_input_row("Address 2", "address2", address2)}}
+    {{ text_input_row("Address 3", "address3", address3)}}
+    {{ text_input_row("County", "county", county)}}
+    {{ text_input_row("Post Code", "postcode", postcode)}}
+{% endblock %}
+{% block scripts %}
+$(function(){
+    $("#dob").datepicker({dateFormat:"dd/mm/yy"});
+})
+{% endblock %}

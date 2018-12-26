@@ -1,0 +1,27 @@
+{% extends "list_master.html" %}
+{% block title %}Users{% endblock %}
+{% block controller %}users{% endblock %}
+{% block headers %}
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Username</th>
+    <th scope="col">Email</th>
+    <th scope="col">Address</th>
+    <th scope="col"></th>
+{% endblock %}
+{% block columns %}
+    {% if items %}
+        {% for item in items %}
+        <tr>
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.username if item.username else ""}}</td>
+            <td>{{item.email_address if item.email_address else ""}}</td>
+            <td>{{item.address.line1 if item.address else ""}}</td>
+            <td class="text-right">
+                <a href="/{{self.controller()}}/{{item.id}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
